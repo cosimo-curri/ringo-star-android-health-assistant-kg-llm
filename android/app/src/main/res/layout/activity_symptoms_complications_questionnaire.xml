@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".questionnaire.SymptomsComplicationsQuestionnaire">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:tint="?android:attr/colorPrimary"
+                    app:srcCompat="@drawable/arrow_back"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/montserrat_extrabold"
+                    android:text="@string/symptoms_and_complications"
+                    android:textColor="?android:attr/colorPrimary"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchChangeVision"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/have_you_noticed_any_changes_in_your_vision" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchInfections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/have_you_had_recurrent_infections_in_the_past_month" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchLossSensation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/have_you_experienced_pain_tingling_or_loss_of_sensation_in_your_feet" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchWoundsFeet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/have_you_observed_wounds_or_ulcers_on_your_feet_that_are_not_healing" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchJoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/have_you_noticed_swelling_or_pain_in_your_joints" />
+
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button"
+                android:text="@string/send" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

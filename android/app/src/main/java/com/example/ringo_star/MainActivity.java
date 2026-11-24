@@ -1,0 +1,62 @@
+package com.example.ringo_star;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Window;
+
+import androidx.activity.EdgeToEdge;
+import com.example.ringo_star.security.SecureActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.example.ringo_star.data.DatabaseClient;
+import com.example.ringo_star.data.entity.User;
+import com.example.ringo_star.utils.RingoStarRDF4J;
+
+import org.eclipse.rdf4j.model.Model;
+
+public class MainActivity extends SecureActivity {
+    @Override protected boolean requiresUnlock() { return false; }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+
+        setContentView(R.layout.activity_main);
+
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.motionLayout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        new Thread(() -> {
+            try {
+                DatabaseClient databaseClient = DatabaseClient.getInstance(getApplicationContext());
+                User user = databaseClient.getDatabase().userDAO().getUser();
+                runOnUiThread(() -> new Handler().postDelayed(() -> {
+                    Class<?> nextActivity = (user == null) ? UserInfoActivity.class : PinActivity.class;
+                    Intent next = new Intent(MainActivity.this, nextActivity);
+                    if (user == null) next.putExtra("onboarding", true);
+                    startActivity(next);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                }, 3000));
+            } catch (RuntimeException error) {
+                android.util.Log.e("RingoStar", "Unable to initialize protected storage");
+                runOnUiThread(() -> new android.app.AlertDialog.Builder(this)
+                        .setMessage(R.string.protected_data_error)
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                        .show());
+            }
+        }).start();
+    }
+}

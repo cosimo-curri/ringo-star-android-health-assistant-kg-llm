@@ -1,0 +1,107 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.example.ringo_star'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.ringo_star"
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // SHA-256 is pinned into the APK when known; never pull verification hashes
+    // from the same unauthenticated HTTP response as the model being checked.
+    def digestKeys = ['gemma2b':'GEMMA2B', 'falcon_rw1b':'FALCON_RW1B',
+                      'stable_lm3b':'STABLE_LM3B', 'phi2':'PHI2']
+    defaultConfig {
+        digestKeys.each { modelId, key ->
+            def digest = (project.findProperty("modelSha256_${modelId}")
+                    ?: System.getenv("RINGO_MODEL_SHA256_${key}") ?: "").toString().trim()
+            if (digest && !(digest ==~ /(?i)[0-9a-f]{64}/)) {
+                throw new GradleException("Invalid SHA-256 for ${modelId}")
+            }
+            buildConfigField "String", "MODEL_SHA256_${key}", "\"${digest.toLowerCase(java.util.Locale.ROOT)}\""
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+    def modelServerUrl = (project.findProperty("modelServerUrl") ?: System.getenv("RINGO_MODEL_SERVER_URL"))
+    buildTypes {
+        debug {
+            def url = modelServerUrl ?: "http://10.0.2.2:3000"
+            buildConfigField "String", "MODEL_SERVER_BASE_URL", "\"${url}\""
+        }
+        release {
+            // A release download endpoint must be explicitly configured and use HTTPS.
+            def url = modelServerUrl ?: ""
+            if (url && !url.startsWith("https://")) {
+                throw new GradleException("Release modelServerUrl must use HTTPS")
+            }
+            buildConfigField "String", "MODEL_SERVER_BASE_URL", "\"${url}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packaging {
+        resources {
+            excludes += [
+                    'META-INF/INDEX.LIST',
+                    'META-INF/DEPENDENCIES',
+                    'META-INF/LICENSE',
+                    'META-INF/LICENSE.txt',
+                    'META-INF/NOTICE',
+                    'META-INF/NOTICE.txt',
+                    'META-INF/io.netty.versions.properties'
+            ]
+        }
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+
+    implementation libs.tasks.genai
+
+    implementation libs.room.runtime
+    // Encrypted SQLite with the Room 2 compatibility factory.
+    implementation 'net.zetetic:sqlcipher-android:4.20.0@aar'
+    implementation 'androidx.sqlite:sqlite:2.7.0'
+    annotationProcessor libs.room.compiler
+
+    implementation files("libs/ruler-picker-1.1.aar")
+
+    implementation libs.bubbletabbar
+
+    implementation libs.rdf4j.model
+    implementation libs.rdf4j.rio.api
+    implementation libs.rdf4j.repository.api
+    implementation libs.rdf4j.rio.turtle
+    implementation libs.xercesimpl
+
+
+    configurations.implementation {
+        exclude group: 'commons-codec', module: 'commons-codec'
+        exclude group: 'org.apache.httpcomponents', module: 'httpcore-osgi'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient-osgi'
+    }
+}

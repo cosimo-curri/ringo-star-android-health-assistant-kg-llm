@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".questionnaire.CardiovascularRiskQuestionnaire">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/arrow_back"
+                    app:tint="?android:attr/colorPrimary"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/montserrat_extrabold"
+                    android:text="@string/cardiovascular_risk"
+                    android:textColor="?android:attr/colorPrimary"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/txtCholesterol"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edit_text"
+                android:layout_marginTop="20dp"
+                android:hint="@string/cholesterol_mg_dl"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchChestPain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/have_you_experienced_chest_pain_or_shortness_of_breath_during_exercise" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchDietLipids"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/are_you_following_a_diet_to_reduce_lipids" />
+
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button"
+                android:text="@string/send" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
