@@ -2,7 +2,7 @@
 
 Android health diary for diabetes-oriented self-monitoring, combining an RDF knowledge graph, local LLM inference, and exportable PDF reports.
 
-Ringo-Star is an academic project developed for the *Semantic Web and Social Networks* course (Academic Year **2024–2025**) during an Erasmus+ exchange at **[Poznan University of Technology](https://put.poznan.pl/en)** (Poland), as part of the **Computer Engineering** degree program at **[Politecnico di Bari](https://www.poliba.it/en/laurea-magistrale-ingegneria-informatica)** (Italy).
+Ringo-Star is an academic project developed for the *Semantic Web and Social Networks* course (Academic Year **2024–2025**) during an Erasmus+ exchange at **[Poznan University of Technology](https://put.poznan.pl/en)** (Poland), as part of the **Master's Degree in Computer Engineering**, **Artificial Intelligence and Data Science** curriculum, at **[Politecnico di Bari](https://www.poliba.it/en/laurea-magistrale-ingegneria-informatica)** (Italy).
 
 Users can record profile information and responses to seven questionnaires. The app represents those observations as RDF triples, prepares a structured natural-language prompt from its local graph, and uses a compatible on-device model to generate a summary. **It is not clinically validated or a medical device.**
 
